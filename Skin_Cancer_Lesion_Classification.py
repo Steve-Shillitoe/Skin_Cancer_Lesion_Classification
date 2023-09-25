@@ -35,6 +35,7 @@ from keras.layers import Dense, Dropout, Flatten, Conv2D, MaxPool2D, BatchNormal
 from sklearn.model_selection import train_test_split
 from scipy import stats
 from sklearn.preprocessing import LabelEncoder
+from sklearn.utils import resample
 from keras.preprocessing.image import ImageDataGenerator
 
 def gallery_show(images):
@@ -51,21 +52,22 @@ def setup_data():
     # subfolders based on their labels.
 
     # Read the csv file containing image names and corresponding labels
-    skin_df2 = pd.read_csv('data/HAM10000_metadata.csv')
-    print(skin_df2['dx'].value_counts())
+    
+    print(skin_df['dx'].value_counts())
 
-    labels=skin_df2['dx'].unique().tolist()  #Extract labels into a list
+    labels=skin_df['dx'].unique().tolist()  #Extract labels into a list
     label_images = []
 
     # Copy images to new folders
     for label in labels:
         #os.mkdir(dest_dir + str(i) + "/")
-        sample = skin_df2[skin_df2['dx'] == label]['image_id']
+        sample = skin_df[skin_df['dx'] == label]['image_id']
         label_images.extend(sample)
         for image_id in label_images:
             shutil.copyfile(("data/all_images/" + image_id + ".jpg"), ("data/reorganised/" + label + "/" + image_id + ".jpg"))
         label_images=[]    
         
+skin_df = pd.read_csv('data/HAM10000_metadata.csv')
 ##########################################################
 # Reorganize data into subfolders based on their labels
 ##########################################################
@@ -90,6 +92,48 @@ train_data = datagen.flow_from_directory(directory=train_dir,
 # Check images for a single batch.
 x, y = next(train_data)
 # View images
-gallery_show([x[0], x[1], x[2], x[3], x[4], x[5], x[6], x[7], x[8]])
+#gallery_show([x[0], x[1], x[2], x[3], x[4], x[5], x[6], x[7], x[8]])
 #x[9], x[10], x[11], x[12], x[13], x[14], x[15]
+
+#SIZE=32
+###################################################################
+# Investigate the data
+###################################################################
+# label encoding to numeric values from text
+le = LabelEncoder()
+le.fit(skin_df['dx'])
+LabelEncoder()
+print(list(le.classes_))
+ 
+skin_df['label'] = le.transform(skin_df["dx"]) 
+print(skin_df.sample(10))
+
+# Data distribution visualization
+fig = plt.figure(figsize=(12,8))
+
+ax1 = fig.add_subplot(221)
+skin_df['dx'].value_counts().plot(kind='bar', ax=ax1)
+ax1.set_ylabel('Count')
+ax1.set_title('Cell Type');
+
+ax2 = fig.add_subplot(222)
+skin_df['sex'].value_counts().plot(kind='bar', ax=ax2)
+ax2.set_ylabel('Count', size=15)
+ax2.set_title('Sex');
+
+ax3 = fig.add_subplot(223)
+skin_df['localization'].value_counts().plot(kind='bar')
+ax3.set_ylabel('Count',size=12)
+ax3.set_title('Localization')
+
+ax4 = fig.add_subplot(224)
+sample_age = skin_df[pd.notnull(skin_df['age'])]
+sns.distplot(sample_age['age'], fit=stats.norm, color='red');
+ax4.set_title('Age')
+
+plt.tight_layout()
+plt.show()
+
+# Distribution of data into various classes 
+print(skin_df['label'].value_counts())
 
