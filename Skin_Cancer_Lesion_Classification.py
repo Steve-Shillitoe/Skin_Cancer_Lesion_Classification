@@ -74,28 +74,6 @@ skin_df = pd.read_csv('data/HAM10000_metadata.csv')
 # This function is only run once to setup the data
 #setup_data()
 
-##########################################################
-# Create a data generator
-##########################################################
-#Define datagen. Here we can define any transformations we want to apply to images
-datagen = ImageDataGenerator()
-
-# define training directory that contains subfolders
-train_dir = "data/reorganised/"
-
-#Use flow_from_directory
-train_data = datagen.flow_from_directory(directory=train_dir,
-                                         class_mode='categorical',
-                                         batch_size=16,  #16 images at a time
-                                         target_size=(32,32))  #Resize images
-
-# Check images for a single batch.
-x, y = next(train_data)
-# View images
-#gallery_show([x[0], x[1], x[2], x[3], x[4], x[5], x[6], x[7], x[8]])
-#x[9], x[10], x[11], x[12], x[13], x[14], x[15]
-
-#SIZE=32
 ###################################################################
 # Investigate the data
 ###################################################################
@@ -137,3 +115,70 @@ plt.show()
 # Distribution of data into various classes 
 print(skin_df['label'].value_counts())
 
+##########################################################
+# Create a data generator
+##########################################################
+#Define datagen. Here we can define any transformations we want to apply to images
+datagen = ImageDataGenerator()
+
+# define training directory that contains subfolders
+train_dir = "data/reorganised/"
+
+#Use flow_from_directory
+train_data = datagen.flow_from_directory(directory=train_dir,
+                                         class_mode='categorical',
+                                         batch_size=16,  #16 images at a time
+                                         target_size=(32,32))  #Resize images
+
+# Check images for a single batch.
+#x, y = next(train_data)
+# View images
+#gallery_show([x[0], x[1], x[2], x[3], x[4], x[5], x[6], x[7], x[8]])
+#x[9], x[10], x[11], x[12], x[13], x[14], x[15]
+
+########################################################
+# Create the model.
+########################################################
+# Could also load pretrained networks such as mobilenet or VGG16
+
+num_classes = 7
+SIZE=32
+
+model = Sequential()
+model.add(Conv2D(256, (3, 3), activation="relu", input_shape=(SIZE, SIZE, 3)))
+#model.add(BatchNormalization())
+model.add(MaxPool2D(pool_size=(2, 2)))  
+model.add(Dropout(0.3))
+
+model.add(Conv2D(128, (3, 3),activation='relu'))
+#model.add(BatchNormalization())
+model.add(MaxPool2D(pool_size=(2, 2)))  
+model.add(Dropout(0.3))
+
+model.add(Conv2D(64, (3, 3),activation='relu'))
+#model.add(BatchNormalization())
+model.add(MaxPool2D(pool_size=(2, 2)))  
+model.add(Dropout(0.3))
+model.add(Flatten())
+
+model.add(Dense(32))
+model.add(Dense(7, activation='softmax'))
+model.summary()
+
+model.compile(loss='categorical_crossentropy', optimizer='Adam', metrics=['acc'])
+
+##########################################################
+#  Train the model
+##########################################################
+batch_size = 16 
+epochs = 50
+
+history = model.fit(
+    x_train, y_train,
+    epochs=epochs,
+    batch_size = batch_size,
+    validation_data=(x_test, y_test),
+    verbose=2)
+
+score = model.evaluate(x_test, y_test)
+print('Test accuracy:', score[1])
