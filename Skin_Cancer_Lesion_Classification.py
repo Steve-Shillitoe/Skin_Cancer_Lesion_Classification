@@ -54,8 +54,8 @@ def setup_data():
         #os.mkdir(dest_dir + str(i) + "/")
         sample = skin_df2[skin_df2['dx'] == label]['image_id']
         label_images.extend(sample)
-        for id in label_images:
-            shutil.copyfile(("data/all_images/"+ id +".jpg"), ("data/reorganised/"+ label + "/" + id+".jpg"))
+        for image_id in label_images:
+            shutil.copyfile(("data/all_images/" + image_id + ".jpg"), ("data/reorganised/" + label + "/" + image_id + ".jpg"))
         label_images=[]    
 
 # Reorganize data into subfolders based on their labels
