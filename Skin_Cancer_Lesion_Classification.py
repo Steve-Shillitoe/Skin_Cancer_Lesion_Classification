@@ -115,6 +115,7 @@ plt.show()
 # Distribution of data into various classes 
 print(skin_df['label'].value_counts())
 
+SIZE = 32
 ##########################################################
 # Create a data generator
 ##########################################################
@@ -128,7 +129,7 @@ train_dir = "data/reorganised/"
 train_data = datagen.flow_from_directory(directory=train_dir,
                                          class_mode='categorical',
                                          batch_size=16,  #16 images at a time
-                                         target_size=(32,32))  #Resize images
+                                         target_size=(SIZE, SIZE))  #Resize images
 
 # Check images for a single batch.
 #x, y = next(train_data)
@@ -142,7 +143,7 @@ train_data = datagen.flow_from_directory(directory=train_dir,
 # Could also load pretrained networks such as mobilenet or VGG16
 
 num_classes = 7
-SIZE=32
+
 
 model = Sequential()
 model.add(Conv2D(256, (3, 3), activation="relu", input_shape=(SIZE, SIZE, 3)))
@@ -174,7 +175,7 @@ batch_size = 16
 epochs = 50
 
 history = model.fit(
-    x_train, y_train,
+    train_data,
     epochs=epochs,
     batch_size = batch_size,
     validation_data=(x_test, y_test),
