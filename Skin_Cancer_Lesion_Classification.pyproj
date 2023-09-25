@@ -26,6 +26,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include=".gitignore" />
+    <Content Include="data\HAM10000_metadata.csv" />
   </ItemGroup>
   <ItemGroup>
     <Interpreter Include="env\">
@@ -37,6 +38,18 @@
       <PathEnvironmentVariable>PYTHONPATH</PathEnvironmentVariable>
       <Architecture>X64</Architecture>
     </Interpreter>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="data\" />
+    <Folder Include="data\all_images\" />
+    <Folder Include="data\reorganised\" />
+    <Folder Include="data\reorganised\bkl\" />
+    <Folder Include="data\reorganised\mel\" />
+    <Folder Include="data\reorganised\bcc\" />
+    <Folder Include="data\reorganised\akiec\" />
+    <Folder Include="data\reorganised\df\" />
+    <Folder Include="data\reorganised\vasc\" />
+    <Folder Include="data\reorganised\nv\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
   <!-- Uncomment the CoreCompile target to enable the Build command in

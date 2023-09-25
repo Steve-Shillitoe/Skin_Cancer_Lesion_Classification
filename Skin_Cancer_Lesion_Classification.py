@@ -23,6 +23,7 @@ import os
 from glob import glob
 import seaborn as sns
 from PIL import Image
+import shutil
 
 np.random.seed(42)
 from sklearn.metrics import confusion_matrix
@@ -34,4 +35,30 @@ from keras.layers import Dense, Dropout, Flatten, Conv2D, MaxPool2D, BatchNormal
 from sklearn.model_selection import train_test_split
 from scipy import stats
 from sklearn.preprocessing import LabelEncoder
+from keras.preprocessing.image import ImageDataGenerator
+
+
+def setup_data():
+    # This function reorganises the HAM10000 images into 
+    # subfolders based on their labels.
+
+    # Read the csv file containing image names and corresponding labels
+    skin_df2 = pd.read_csv('data/HAM10000_metadata.csv')
+    print(skin_df2['dx'].value_counts())
+
+    labels=skin_df2['dx'].unique().tolist()  #Extract labels into a list
+    label_images = []
+
+    # Copy images to new folders
+    for label in labels:
+        #os.mkdir(dest_dir + str(i) + "/")
+        sample = skin_df2[skin_df2['dx'] == label]['image_id']
+        label_images.extend(sample)
+        for id in label_images:
+            shutil.copyfile(("data/all_images/"+ id +".jpg"), ("data/reorganised/"+ label + "/" + id+".jpg"))
+        label_images=[]    
+
+# Reorganize data into subfolders based on their labels
+# This function is only run once to setup the data
+#setup_data()
 
