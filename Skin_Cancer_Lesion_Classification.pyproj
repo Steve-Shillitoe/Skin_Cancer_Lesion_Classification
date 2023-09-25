@@ -22,6 +22,7 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Setup_Folders.py" />
     <Compile Include="Skin_Cancer_Lesion_Classification.py" />
   </ItemGroup>
   <ItemGroup>
@@ -42,14 +43,15 @@
   <ItemGroup>
     <Folder Include="data\" />
     <Folder Include="data\all_images\" />
-    <Folder Include="data\reorganised\" />
-    <Folder Include="data\reorganised\bkl\" />
-    <Folder Include="data\reorganised\mel\" />
-    <Folder Include="data\reorganised\bcc\" />
-    <Folder Include="data\reorganised\akiec\" />
-    <Folder Include="data\reorganised\df\" />
-    <Folder Include="data\reorganised\vasc\" />
-    <Folder Include="data\reorganised\nv\" />
+    <Folder Include="data\test\" />
+    <Folder Include="data\train\" />
+    <Folder Include="data\train\bkl\" />
+    <Folder Include="data\train\mel\" />
+    <Folder Include="data\train\bcc\" />
+    <Folder Include="data\train\akiec\" />
+    <Folder Include="data\train\df\" />
+    <Folder Include="data\train\vasc\" />
+    <Folder Include="data\train\nv\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
   <!-- Uncomment the CoreCompile target to enable the Build command in
