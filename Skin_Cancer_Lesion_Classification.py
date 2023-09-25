@@ -37,6 +37,14 @@ from scipy import stats
 from sklearn.preprocessing import LabelEncoder
 from keras.preprocessing.image import ImageDataGenerator
 
+def gallery_show(images):
+    for i in range(len(images)):
+        image = images[i].astype(int)
+        plt.subplot(3, 3, i + 1)
+        plt.imshow(np.array(image))
+        plt.axis("off")
+    plt.show()
+    #plt.savefig('NoisyImage.jpg')
 
 def setup_data():
     # This function reorganises the HAM10000 images into 
@@ -57,8 +65,31 @@ def setup_data():
         for image_id in label_images:
             shutil.copyfile(("data/all_images/" + image_id + ".jpg"), ("data/reorganised/" + label + "/" + image_id + ".jpg"))
         label_images=[]    
-
+        
+##########################################################
 # Reorganize data into subfolders based on their labels
+##########################################################
 # This function is only run once to setup the data
 #setup_data()
+
+##########################################################
+# Create a data generator
+##########################################################
+#Define datagen. Here we can define any transformations we want to apply to images
+datagen = ImageDataGenerator()
+
+# define training directory that contains subfolders
+train_dir = "data/reorganised/"
+
+#Use flow_from_directory
+train_data = datagen.flow_from_directory(directory=train_dir,
+                                         class_mode='categorical',
+                                         batch_size=16,  #16 images at a time
+                                         target_size=(32,32))  #Resize images
+
+# Check images for a single batch.
+x, y = next(train_data)
+# View images
+gallery_show([x[0], x[1], x[2], x[3], x[4], x[5], x[6], x[7], x[8]])
+#x[9], x[10], x[11], x[12], x[13], x[14], x[15]
 
