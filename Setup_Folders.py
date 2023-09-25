@@ -26,4 +26,4 @@ skin_df = pd.read_csv('data/HAM10000_metadata.csv')
 # Reorganize data into subfolders based on their labels
 ##########################################################
 # This function is only run once to setup the data
-#setup_data()
+setup_data()
