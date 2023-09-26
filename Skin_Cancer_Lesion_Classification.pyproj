@@ -4,7 +4,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>9a0e8718-515a-4c22-9fd5-ae4462b3e1ee</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>Balance_Data.py</StartupFile>
+    <StartupFile>Skin_Cancer_Lesion_Classification.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
