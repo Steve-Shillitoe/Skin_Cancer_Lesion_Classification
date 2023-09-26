@@ -58,14 +58,18 @@ SIZE = 32
 datagen = ImageDataGenerator()
 
 # define training directory that contains subfolders
-train_dir = "data/reorganised/"
-
+train_dir = "data/train/"
+test_dir = "data/test"
 #Use flow_from_directory
 train_data = datagen.flow_from_directory(directory=train_dir,
                                          class_mode='categorical',
                                          batch_size=16,  #16 images at a time
                                          target_size=(SIZE, SIZE))  #Resize images
 
+test_data = datagen.flow_from_directory(directory=test_dir,
+                                         class_mode='categorical',
+                                         batch_size=16,  #16 images at a time
+                                         target_size=(SIZE, SIZE))  #Resize images
 # Check images for a single batch.
 #x, y = next(train_data)
 # View images
@@ -113,8 +117,8 @@ history = model.fit(
     train_data,
     epochs=epochs,
     batch_size = batch_size,
-    validation_data=(x_test, y_test),
+    validation_data=test_data,
     verbose=2)
 
-score = model.evaluate(x_test, y_test)
+score = model.evaluate(test_data)
 print('Test accuracy:', score[1])

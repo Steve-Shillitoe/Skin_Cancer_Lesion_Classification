@@ -4,7 +4,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>9a0e8718-515a-4c22-9fd5-ae4462b3e1ee</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>Investigate_Data.py</StartupFile>
+    <StartupFile>Balance_Data.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
@@ -47,6 +47,13 @@
     <Folder Include="data\" />
     <Folder Include="data\all_images\" />
     <Folder Include="data\test\" />
+    <Folder Include="data\test\akiec\" />
+    <Folder Include="data\test\bcc\" />
+    <Folder Include="data\test\bkl\" />
+    <Folder Include="data\test\df\" />
+    <Folder Include="data\test\mel\" />
+    <Folder Include="data\test\nv\" />
+    <Folder Include="data\test\vasc\" />
     <Folder Include="data\train\" />
     <Folder Include="data\train\bkl\" />
     <Folder Include="data\train\mel\" />
