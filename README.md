@@ -7,12 +7,13 @@ Data description:
         https://arxiv.org/ftp/arxiv/papers/1803/1803.10417.pdf
 
 The 7 classes of skin cancer lesions included in this dataset are:
+        
         Melanocytic nevi (nv)
         Melanoma (mel)
         Benign keratosis-like lesions (bkl)
         Basal cell carcinoma (bcc) 
         Actinic keratoses (akiec)
-        Vascular lesions (vas)
+        Vascular lesions (vasc)
         Dermatofibroma (df)
 
 Number of images in the original dataset:
