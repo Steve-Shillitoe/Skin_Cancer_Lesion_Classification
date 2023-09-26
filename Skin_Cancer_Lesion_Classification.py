@@ -18,7 +18,7 @@ Dermatofibroma (df)
 
 import matplotlib.pyplot as plt
 import numpy as np
-
+import seaborn as sns
 np.random.seed(42)
 from sklearn.metrics import classification_report, confusion_matrix
 
@@ -166,18 +166,19 @@ y_pred = model.predict(test_data)
 # Convert predictions classes to one hot vectors 
 y_pred_classes = np.argmax(y_pred, axis = 1) 
 # Convert test data to one hot vectors
-y_true = np.argmax(y_test, axis = 1) 
+y_true = np.argmax(test_data, axis = 1) 
 
 #Print confusion matrix
-cm = confusion_matrix(y_true, y_pred_classes)
+cm = confusion_matrix(test_data, y_pred_classes)
 
 fig, ax = plt.subplots(figsize=(6,6))
 sns.set(font_scale=1.6)
 sns.heatmap(cm, annot=True, linewidths=.5, ax=ax)
-
+plt.show()
 
 #PLot fractional incorrect misclassifications
 incorr_fraction = 1 - np.diag(cm) / np.sum(cm, axis=1)
 plt.bar(np.arange(7), incorr_fraction)
 plt.xlabel('True Label')
 plt.ylabel('Fraction of incorrect predictions')
+plt.show()
