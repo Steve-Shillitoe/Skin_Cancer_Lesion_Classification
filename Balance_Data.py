@@ -1,4 +1,13 @@
+"""
+As the initial dataset was very unbalanced, this is addressed in this module
+using the resampling function, sklearn.utils.resample, to increase the number 
+of images in the classes, mel, bkl, bcc, akiec, vasc & df to 6705. 
+See the function balance_images in the module Balance_Data.py 
 
+A testing dataset was then extracted from the training dataset by randomly extracting
+20% of the images from the training dataset using the 
+function extract_test_images in the module Balance_Data.py.
+"""
 
 import os
 import random
