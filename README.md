@@ -42,6 +42,8 @@ A testing dataset was then extracted from the training dataset by randomly extra
 function **extract_test_images** in the module Balance_Data.py.
 
 The purpose of the module, **Skin_Cancer_Lesion_Classification.py**:
+
+
     1. Create a data generator using the images stored on disc.
     2. Create, train and evaluate a Convolutional Neuron Network model to 
        classify skin cancer lesions.
