@@ -18,25 +18,16 @@ Dermatofibroma (df)
 
 import matplotlib.pyplot as plt
 import numpy as np
-#import pandas as pd
-# import os
-# from glob import glob
-# import seaborn as sns
-# from PIL import Image
-
 
 np.random.seed(42)
-#from sklearn.metrics import confusion_matrix
+from sklearn.metrics import classification_report, confusion_matrix
 
 import keras
 #from keras.utils import to_categorical # used for converting labels to one-hot-encoding
 from keras.models import Sequential
 from keras.layers import Dense, Dropout, Flatten, Conv2D, MaxPool2D, BatchNormalization
-#from sklearn.model_selection import train_test_split
-#from scipy import stats
-#from sklearn.preprocessing import LabelEncoder
-#from sklearn.utils import resample
 from keras.preprocessing.image import ImageDataGenerator
+from keras.callbacks import EarlyStopping
 
 def gallery_show(images):
     for i in range(len(images)):
@@ -48,7 +39,24 @@ def gallery_show(images):
     #plt.savefig('NoisyImage.jpg')
 
 
+def gallery_show_image_batch(dataset):
+    plt.figure(figsize=(10, 10))
+    # Take the first n batches from the iterator
+    n_batches_to_take = 1  # You can replace this with the number of batches you want to take
+    subset_data = [next(dataset) for _ in range(n_batches_to_take)]
+    for images, labels in subset_data:
+      for i in range(9):
+        ax = plt.subplot(3, 3, i + 1)
+        plt.imshow(images[i].astype("uint8"))
+        index = np.where(labels[i] == 1)[0][0]
+        plt.title(CLASS_NAMES[index])
+        plt.axis("off")
+    plt.show() 
+    plt.savefig('batch_skin_figs.jpg',format="JPG")
+
 SIZE = 32
+CLASS_NAMES = ['actinic keratosis', 'basal cell carcinoma', 'dermatofibroma', 'melanoma', 'nevus', 'pigmented benign keratosis', 'seborrheic keratosis', 'squamous cell carcinoma', 'vascular lesion']
+    
 ##########################################################
 # Create a data generator
 ##########################################################
@@ -61,26 +69,27 @@ test_dir = "data/test"
 #Use flow_from_directory
 train_data = datagen.flow_from_directory(directory=train_dir,
                                          class_mode='categorical',
+                                         color_mode = 'rgb',
                                          batch_size=16,  #16 images at a time
                                          target_size=(SIZE, SIZE))  #Resize images
 
+#class_names = train_data.classes
+#print(class_names)
+# Check images for a single batch.
+#gallery_show_image_batch(train_data)
+
 test_data = datagen.flow_from_directory(directory=test_dir,
                                          class_mode='categorical',
+                                         color_mode = 'rgb',
                                          batch_size=16,  #16 images at a time
                                          target_size=(SIZE, SIZE))  #Resize images
-# Check images for a single batch.
-#x, y = next(train_data)
-# View images
-#gallery_show([x[0], x[1], x[2], x[3], x[4], x[5], x[6], x[7], x[8]])
-#x[9], x[10], x[11], x[12], x[13], x[14], x[15]
+
 
 ########################################################
 # Create the model.
 ########################################################
 # Could also load pretrained networks such as mobilenet or VGG16
-
 num_classes = 7
-
 
 model = Sequential()
 model.add(Conv2D(256, (3, 3), activation="relu", input_shape=(SIZE, SIZE, 3)))
@@ -103,20 +112,72 @@ model.add(Dense(32))
 model.add(Dense(7, activation='softmax'))
 model.summary()
 
-model.compile(loss='categorical_crossentropy', optimizer='Adam', metrics=['acc'])
+model.compile(loss='categorical_crossentropy', optimizer='Adam', metrics=['accuracy'])
 
 ##########################################################
 #  Train the model
 ##########################################################
 batch_size = 16 
-epochs = 50
+epochs = 10
+# Define the EarlyStopping callback
+early_stopping = EarlyStopping(monitor='val_loss', patience=2, verbose=1, restore_best_weights=True)
 
 history = model.fit(
     train_data,
     epochs=epochs,
     batch_size = batch_size,
     validation_data=test_data,
+    callbacks=[early_stopping],
     verbose=2)
 
 score = model.evaluate(test_data)
 print('Test accuracy:', score[1])
+model.save('skin_cancer_classifier.h5')
+
+##############################################
+#Visualizing training results
+#############################################
+acc = history.history['accuracy']
+val_acc = history.history['val_accuracy']
+
+loss = history.history['loss']
+val_loss = history.history['val_loss']
+
+epochs_range = range(epochs)
+
+plt.figure(figsize=(8, 8))
+plt.subplot(1, 2, 1)
+plt.plot(epochs_range, acc, label='Training Accuracy')
+plt.plot(epochs_range, val_acc, label='Validation Accuracy')
+plt.legend(loc='lower right')
+plt.title('Training and Validation Accuracy')
+
+plt.subplot(1, 2, 2)
+plt.plot(epochs_range, loss, label='Training Loss')
+plt.plot(epochs_range, val_loss, label='Validation Loss')
+plt.legend(loc='upper right')
+plt.title('Training and Validation Loss')
+plt.show()
+
+######################################
+# Prediction using the  test data
+#####################################
+y_pred = model.predict(test_data)
+# Convert predictions classes to one hot vectors 
+y_pred_classes = np.argmax(y_pred, axis = 1) 
+# Convert test data to one hot vectors
+y_true = np.argmax(y_test, axis = 1) 
+
+#Print confusion matrix
+cm = confusion_matrix(y_true, y_pred_classes)
+
+fig, ax = plt.subplots(figsize=(6,6))
+sns.set(font_scale=1.6)
+sns.heatmap(cm, annot=True, linewidths=.5, ax=ax)
+
+
+#PLot fractional incorrect misclassifications
+incorr_fraction = 1 - np.diag(cm) / np.sum(cm, axis=1)
+plt.bar(np.arange(7), incorr_fraction)
+plt.xlabel('True Label')
+plt.ylabel('Fraction of incorrect predictions')
