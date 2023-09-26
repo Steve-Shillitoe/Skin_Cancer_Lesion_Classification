@@ -3,10 +3,12 @@ Skin cancer lesion classification using the HAM10000 dataset
 
 Dataset link:
         https://www.kaggle.com/kmader/skin-cancer-mnist-ham10000
+        
 Data description: 
         https://arxiv.org/ftp/arxiv/papers/1803/1803.10417.pdf
 
 The 7 classes of skin cancer lesions included in this dataset are:
+
         
         Melanocytic nevi (nv)
         Melanoma (mel)
@@ -15,6 +17,7 @@ The 7 classes of skin cancer lesions included in this dataset are:
         Actinic keratoses (akiec)
         Vascular lesions (vasc)
         Dermatofibroma (df)
+
 
 Number of images in the original dataset:
         nv 6705
