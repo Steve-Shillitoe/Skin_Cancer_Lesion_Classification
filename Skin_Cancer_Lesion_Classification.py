@@ -24,7 +24,7 @@ from sklearn.metrics import classification_report, confusion_matrix
 
 import keras
 #from keras.utils import to_categorical # used for converting labels to one-hot-encoding
-from keras.models import Sequential
+from keras.models import Sequential, load_model
 from keras.layers import Dense, Dropout, Flatten, Conv2D, MaxPool2D, BatchNormalization
 from keras.preprocessing.image import ImageDataGenerator
 from keras.callbacks import EarlyStopping
@@ -122,26 +122,29 @@ epochs = 10
 # Define the EarlyStopping callback
 early_stopping = EarlyStopping(monitor='val_loss', patience=2, verbose=1, restore_best_weights=True)
 
-history = model.fit(
-    train_data,
-    epochs=epochs,
-    batch_size = batch_size,
-    validation_data=test_data,
-    callbacks=[early_stopping],
-    verbose=2)
+# history = model.fit(
+#     train_data,
+#     epochs=epochs,
+#     batch_size = batch_size,
+#     validation_data=test_data,
+#     callbacks=[early_stopping],
+#     verbose=2)
 
+#model.save('skin_cancer_classifier.h5')
+
+#To save time, load the previously saved model
+model = load_model('skin_cancer_classifier.h5')
 score = model.evaluate(test_data)
 print('Test accuracy:', score[1])
-model.save('skin_cancer_classifier.h5')
 
 ##############################################
 #Visualizing training results
 #############################################
-acc = history.history['accuracy']
-val_acc = history.history['val_accuracy']
+acc = model.history.history['accuracy']
+val_acc = model.history.history['val_accuracy']
 
-loss = history.history['loss']
-val_loss = history.history['val_loss']
+loss = model.history.history['loss']
+val_loss = model.history.history['val_loss']
 
 epochs_range = range(epochs)
 
