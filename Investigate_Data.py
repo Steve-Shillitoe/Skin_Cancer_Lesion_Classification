@@ -45,3 +45,6 @@ plt.show()
 
 # Distribution of data into various classes 
 print(skin_df['label'].value_counts())
+print('This data is not balanced')
+
+
