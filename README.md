@@ -20,6 +20,8 @@ The 7 classes of skin cancer lesions included in this dataset are:
 
 
 Number of images in the original dataset:
+
+
         nv 6705
         mel 1113
         bkl 1099
