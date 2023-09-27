@@ -198,7 +198,7 @@ y_true = np.argmax(test_data, axis = 1)
 
 #Print confusion matrix
 cm = confusion_matrix(test_data, y_pred_classes)
-
+print(cm)
 fig, ax = plt.subplots(figsize=(6,6))
 sns.set(font_scale=1.6)
 sns.heatmap(cm, annot=True, linewidths=.5, ax=ax)
