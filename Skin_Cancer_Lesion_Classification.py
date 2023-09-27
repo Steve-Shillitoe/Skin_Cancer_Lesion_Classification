@@ -147,18 +147,18 @@ epochs = 10
 # Define the EarlyStopping callback
 early_stopping = EarlyStopping(monitor='val_loss', patience=2, verbose=1, restore_best_weights=True)
 
-# history = model.fit(
-#     train_data,
-#     epochs=epochs,
-#     batch_size = batch_size,
-#     validation_data=test_data,
-#     callbacks=[early_stopping],
-#     verbose=2)
+history = model.fit(
+    train_data,
+    epochs=epochs,
+    batch_size = batch_size,
+    validation_data=test_data,
+    callbacks=[early_stopping],
+    verbose=2)
 
-#model.save('skin_cancer_classifier.h5')
+model.save('skin_cancer_classifier.h5')
 
 #To save time, load the previously saved model
-model = load_model('skin_cancer_classifier.h5')
+#model = load_model('skin_cancer_classifier.h5')
 score = model.evaluate(test_data)
 print('Test accuracy:', score[1])
 
