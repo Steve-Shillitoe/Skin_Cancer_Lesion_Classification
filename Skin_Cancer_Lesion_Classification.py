@@ -86,7 +86,7 @@ CLASS_NAMES = ['actinic keratosis', 'basal cell carcinoma', 'dermatofibroma', 'm
 # Create a data generator
 ##########################################################
 #Define datagen. Here we can define any transformations we want to apply to images
-datagen = ImageDataGenerator()
+datagen = ImageDataGenerator(rescale=1./255) 
 
 # define training directory that contains subfolders
 train_dir = "data/train/"
