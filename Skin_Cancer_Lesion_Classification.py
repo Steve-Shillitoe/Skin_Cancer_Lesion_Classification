@@ -119,7 +119,7 @@ num_classes = 7
 model = Sequential()
 model.add(Conv2D(256, (3, 3), activation="relu", input_shape=(SIZE, SIZE, 3)))
 #model.add(BatchNormalization())
-model.add(MaxPool2D(pool_size=(2, 2)))  
+model.add(MaxPool2D(pool_size=(2, 2), strides = (1, 1), padding='valid'))  
 model.add(Dropout(0.3))
 
 model.add(Conv2D(128, (3, 3),activation='relu'))
@@ -143,7 +143,7 @@ print(model.summary)
 #  Train the model
 ##########################################################
 batch_size = 16 
-epochs = 10
+epochs = 20
 # Define the EarlyStopping callback
 early_stopping = EarlyStopping(monitor='val_loss', patience=2, verbose=1, restore_best_weights=True)
 
@@ -155,21 +155,21 @@ history = model.fit(
     callbacks=[early_stopping],
     verbose=2)
 
-model.save('skin_cancer_classifier.h5')
+model.save('skin_cancer_classifier.keras')
 
 #To save time, load the previously saved model
 #model = load_model('skin_cancer_classifier.h5')
 score = model.evaluate(test_data)
-print('Test accuracy:', score[1])
+print('Test accuracy: ', score[1])
 
 ##############################################
 #Visualizing training results
 #############################################
-acc = model.history.history['accuracy']
-val_acc = model.history.history['val_accuracy']
+acc = history.history['accuracy']
+val_acc = history.history['val_accuracy']
 
-loss = model.history.history['loss']
-val_loss = model.history.history['val_loss']
+loss = history.history['loss']
+val_loss = history.history['val_loss']
 
 epochs_range = range(epochs)
 
