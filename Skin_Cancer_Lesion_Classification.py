@@ -171,7 +171,7 @@ val_acc = history.history['val_accuracy']
 loss = history.history['loss']
 val_loss = history.history['val_loss']
 
-epochs_range = range(epochs)
+epochs_range = range(stopped_epoch = early_stopping.stopped_epoch)
 
 plt.figure(figsize=(8, 8))
 plt.subplot(1, 2, 1)
