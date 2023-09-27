@@ -33,9 +33,10 @@ Number of images in the original dataset:
 Initially, each class of image was copied to a folder named after its class abbreviation 
 using the functionality in the module **Setup_Folders.py**.
 
-As the initial dataset was very unbalanced, next this was addressed using the resampling
-function, sklearn.utils.resample, to increase the number of images in the classes,
-mel, bkl, bcc, akiec, vasc & df to 6705. See the function **balance_images** in the module **Balance_Data.py**. 
+As the initial dataset was very unbalanced, this was addressed using the resampling
+function, sklearn.utils.resample, to increase the number of images in the classes with less than 500 images to 500 images.
+In classes with more than 500 images, images were randomly removed until there were 500 images left.
+See the function **balance_images** in the module **Balance_Data.py**. 
 
 A testing dataset was then extracted from the training dataset by randomly extracting
 20% of the images from the training dataset using the 
