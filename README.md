@@ -42,6 +42,9 @@ A testing dataset was then extracted from the training dataset by randomly extra
 20% of the images from the training dataset using the 
 function **extract_test_images** in the module Balance_Data.py.
 
+So far after training for 20 epochs, loss = 0.8991 and accuracy = 0.6771
+
+
 The purpose of the module, **Skin_Cancer_Lesion_Classification.py**:
 
 
