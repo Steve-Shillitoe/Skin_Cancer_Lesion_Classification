@@ -155,7 +155,7 @@ history = model.fit(
     callbacks=[early_stopping],
     verbose=2)
 
-model.save('skin_cancer_classifier.keras')
+#model.save('skin_cancer_classifier.keras')
 
 #To save time, load the previously saved model
 #model = load_model('skin_cancer_classifier.h5')
@@ -165,27 +165,27 @@ print('Test accuracy: ', score[1])
 ##############################################
 #Visualizing training results
 #############################################
-acc = history.history['accuracy']
-val_acc = history.history['val_accuracy']
+# acc = history.history['accuracy']
+# val_acc = history.history['val_accuracy']
 
-loss = history.history['loss']
-val_loss = history.history['val_loss']
+# loss = history.history['loss']
+# val_loss = history.history['val_loss']
+# stopped_epoch = early_stopping.stopped_epoch
+# epochs_range = range(stopped_epoch)
 
-epochs_range = range(stopped_epoch = early_stopping.stopped_epoch)
+# plt.figure(figsize=(8, 8))
+# plt.subplot(1, 2, 1)
+# plt.plot(epochs_range, acc, label='Training Accuracy')
+# plt.plot(epochs_range, val_acc, label='Validation Accuracy')
+# plt.legend(loc='lower right')
+# plt.title('Training and Validation Accuracy')
 
-plt.figure(figsize=(8, 8))
-plt.subplot(1, 2, 1)
-plt.plot(epochs_range, acc, label='Training Accuracy')
-plt.plot(epochs_range, val_acc, label='Validation Accuracy')
-plt.legend(loc='lower right')
-plt.title('Training and Validation Accuracy')
-
-plt.subplot(1, 2, 2)
-plt.plot(epochs_range, loss, label='Training Loss')
-plt.plot(epochs_range, val_loss, label='Validation Loss')
-plt.legend(loc='upper right')
-plt.title('Training and Validation Loss')
-plt.show()
+# plt.subplot(1, 2, 2)
+# plt.plot(epochs_range, loss, label='Training Loss')
+# plt.plot(epochs_range, val_loss, label='Validation Loss')
+# plt.legend(loc='upper right')
+# plt.title('Training and Validation Loss')
+# plt.show()
 
 ######################################
 # Prediction using the  test data
